@@ -3,387 +3,557 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manufacturing Design - MD AI Hub</title>
+    <title>MD AI Hub - Use Cases</title>
     <style>
-        :root { color-scheme: light dark; --primary: #007AFF; --success: #34C759; --warning: #FF9500; --danger: #FF3B30; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; padding: 20px; transition: background-color 0.3s, color 0.3s; }
-        @media (prefers-color-scheme: light) {
-            body { background: rgba(255,255,255,0.7); color: #1d1d1f; }
-            .card { background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.1); }
-            .header { background: rgba(246,246,246,0.9); border-bottom: 1px solid rgba(0,0,0,0.1); }
-            .navbar { background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.1); }
-            .hero { background: linear-gradient(135deg, rgba(0,122,255,0.1) 0%, rgba(52,199,89,0.1) 100%); }
-            .status-indicator { background: rgba(0,122,255,0.1); color: var(--primary); }
-            .progress-bar { background: rgba(0,0,0,0.1); }
-            .user-info { border-top-color: rgba(0,0,0,0.1); }
-            .phase-block { background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.1); }
-            .course-card { background: rgba(246,246,246,0.8); border: 1px solid rgba(0,0,0,0.07); }
-            .roadmap-timeline { background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.1); }
+        :root {
+            --primary-blue: #0071e3;
+            --primary-hover: #0077ED;
+            --bg-body: #ffffff;
+            --bg-hero: linear-gradient(135deg, #e3f2fd 0%, #f0f4f8 100%);
+            --text-main: #1d1d1f;
+            --text-secondary: #86868b;
+            --card-border: #f5f5f7;
+            --card-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            --pill-bg: #e1f0ff;
+            --pill-text: #0071e3;
+            
+            /* Status Colors (Refined for Hub Look) */
+            --cat-1a-bg: #dcfce7; --cat-1a-text: #166534; /* Green */
+            --cat-1b-bg: #ecfccb; --cat-1b-text: #4d7c0f; /* Lime */
+            --cat-2-bg: #fef9c3; --cat-2-text: #854d0e; /* Yellow */
+            --cat-3-bg: #fee2e2; --cat-3-text: #991b1b; /* Red */
         }
-        @media (prefers-color-scheme: dark) {
-            body { background: rgba(28,28,30,0.7); color: #f5f5f7; }
-            .card { background: rgba(44,44,46,0.8); border: 1px solid rgba(255,255,255,0.1); }
-            .header { background: rgba(58,58,60,0.9); border-bottom: 1px solid rgba(255,255,255,0.1); }
-            .navbar { background: rgba(44,44,46,0.8); border: 1px solid rgba(255,255,255,0.1); }
-            .hero { background: linear-gradient(135deg, rgba(10,132,255,0.15) 0%, rgba(48,209,88,0.15) 100%); }
-            .status-indicator { background: rgba(10,132,255,0.15); color: #0A84FF; }
-            .progress-bar { background: rgba(255,255,255,0.1); }
-            .user-info { border-top-color: rgba(255,255,255,0.1); }
-            .phase-block { background: rgba(44,44,46,0.8); border: 1px solid rgba(255,255,255,0.1); }
-            .course-card { background: rgba(58,58,60,0.6); border: 1px solid rgba(255,255,255,0.08); }
-            .roadmap-timeline { background: rgba(44,44,46,0.8); border: 1px solid rgba(255,255,255,0.1); }
-            .timeline-dot { border-color: rgba(44,44,46,1) !important; box-shadow: 0 0 0 2px rgba(255,255,255,0.15) !important; }
-            .timeline-date { color: #0A84FF; }
+
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Helvetica, Arial, sans-serif; }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .navbar { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 12px 20px; margin-bottom: 24px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; position: sticky; top: 20px; z-index: 100; }
-        .nav-brand { font-weight: 700; font-size: 16px; cursor: pointer; color: var(--primary); }
-        .nav-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        .nav-link { font-size: 12px; font-weight: 500; cursor: pointer; opacity: 0.7; transition: all 0.2s; padding: 6px 12px; border-radius: 6px; white-space: nowrap; }
-        .nav-link:hover { opacity: 1; background: rgba(0,122,255,0.1); color: var(--primary); }
-        .nav-link.active { opacity: 1; background: var(--primary); color: white; }
-        .page { display: none; animation: fadeIn 0.3s ease-in; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .header { padding: 24px; border-radius: 12px; margin-bottom: 24px; backdrop-filter: blur(20px); }
-        .header h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
-        .header p { opacity: 0.7; font-size: 14px; }
-        .hero { padding: 60px 24px; border-radius: 20px; margin-bottom: 48px; text-align: center; backdrop-filter: blur(20px); }
-        .hero-icon { font-size: 64px; margin-bottom: 16px; }
-        .hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; background: linear-gradient(135deg, var(--primary), var(--success)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .hero p { font-size: 18px; opacity: 0.7; margin-bottom: 12px; }
-        .hero-subtitle { font-size: 14px; opacity: 0.5; margin-top: 24px; }
-        .section { margin-bottom: 48px; }
-        .section-title { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-        .card { border-radius: 16px; padding: 28px; transition: all 0.3s ease; cursor: pointer; color: inherit; display: flex; flex-direction: column; gap: 12px; position: relative; overflow: hidden; }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--success)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; }
-        .card:hover::before { transform: scaleX(1); }
-        .card:hover { transform: translateY(-8px); }
-        .card-icon { font-size: 40px; margin-bottom: 4px; }
-        .card-title { font-size: 20px; font-weight: 600; }
-        .card-description { font-size: 14px; opacity: 0.6; flex-grow: 1; line-height: 1.6; }
-        .card-footer { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--primary); margin-top: 12px; opacity: 0.8; }
-        .arrow { transition: transform 0.3s ease; }
-        .card:hover .arrow { transform: translateX(4px); }
-        .badge-count { display: inline-block; background: var(--primary); color: white; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-top: 8px; }
-        .status-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 8px; border-radius: 6px; margin-top: 8px; width: fit-content; }
-        .user-info { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid; }
-        .user-name { font-weight: 600; font-size: 16px; }
-        .progress-summary { display: flex; gap: 16px; flex-wrap: wrap; }
-        .stat { display: flex; flex-direction: column; gap: 4px; }
-        .stat-number { font-size: 20px; font-weight: 600; color: var(--primary); }
-        .stat-label { font-size: 12px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.5px; }
-        .training-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-        .training-info { flex: 1; }
-        .training-title { font-weight: 600; margin-bottom: 4px; }
-        .training-meta { font-size: 13px; opacity: 0.6; display: flex; gap: 12px; }
-        .status-badge { padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; white-space: nowrap; }
-        .status-completed { background: var(--success); color: white; }
-        .status-in-progress { background: var(--warning); color: white; }
-        .status-approved { background: var(--success); color: white; }
-        .status-pending { background: var(--warning); color: white; }
-        .progress-bar { width: 100%; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 8px; }
-        .progress-fill { height: 100%; background: var(--primary); transition: width 0.3s ease; }
-        .badges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 16px; }
-        .badge-item { border-radius: 12px; padding: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; backdrop-filter: blur(20px); transition: all 0.2s ease; }
-        .badge-item:hover { transform: scale(1.05); }
-        .badge-icon { font-size: 40px; }
-        .badge-name { font-size: 12px; font-weight: 600; line-height: 1.3; }
-        .badge-date { font-size: 11px; opacity: 0.6; }
-        .submission-item { border-radius: 12px; padding: 16px; margin-bottom: 12px; backdrop-filter: blur(20px); transition: all 0.2s; display: flex; justify-content: space-between; align-items: flex-start; }
-        .submission-item:hover { transform: translateY(-2px); }
-        .submission-info { flex: 1; }
-        .submission-title { font-weight: 600; margin-bottom: 4px; }
-        .submission-meta { font-size: 12px; opacity: 0.6; display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
-        .submission-description { font-size: 13px; opacity: 0.7; margin-bottom: 8px; }
-        .submission-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-        .tag { display: inline-block; padding: 4px 10px; background: rgba(0,122,255,0.1); color: var(--primary); border-radius: 4px; font-size: 11px; font-weight: 500; }
-        .approved { background: rgba(52,199,89,0.1); border-left: 3px solid var(--success); }
-        .pending { background: rgba(255,149,0,0.1); border-left: 3px solid var(--warning); }
-        .leaderboard-item { display: flex; align-items: center; gap: 16px; padding: 16px; border-radius: 12px; margin-bottom: 12px; backdrop-filter: blur(20px); transition: all 0.2s; }
-        .leaderboard-item:hover { transform: translateX(4px); }
-        .rank-badge { font-size: 24px; font-weight: 700; width: 40px; text-align: center; }
-        .rank-1 { color: #FFD700; } .rank-2 { color: #C0C0C0; } .rank-3 { color: #CD7F32; }
-        .leaderboard-info { flex: 1; }
-        .leaderboard-name { font-weight: 600; margin-bottom: 4px; }
-        .leaderboard-meta { font-size: 12px; opacity: 0.6; display: flex; gap: 12px; }
-        .leaderboard-stats { display: flex; gap: 16px; text-align: right; }
-        .leaderboard-stat { display: flex; flex-direction: column; gap: 4px; }
-        .leaderboard-value { font-weight: 600; font-size: 16px; color: var(--primary); }
-        .leaderboard-label { font-size: 11px; opacity: 0.6; text-transform: uppercase; }
-        .project-card { border-radius: 16px; padding: 24px; margin-bottom: 20px; backdrop-filter: blur(20px); transition: all 0.3s; border-left: 4px solid var(--primary); }
-        .project-card:hover { transform: translateY(-4px); }
-        .project-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px; }
-        .project-title { font-size: 18px; font-weight: 600; }
-        .project-author { font-size: 12px; opacity: 0.6; }
-        .project-description { font-size: 14px; opacity: 0.7; margin-bottom: 12px; line-height: 1.6; }
-        .project-impact { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
-        .impact-item { display: flex; flex-direction: column; gap: 4px; }
-        .impact-value { font-weight: 600; color: var(--success); }
-        .impact-label { font-size: 11px; opacity: 0.6; text-transform: uppercase; }
-        .phase-block { border-radius: 16px; margin-bottom: 20px; overflow: hidden; }
-        .phase-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; cursor: pointer; user-select: none; gap: 16px; transition: background 0.2s; }
-        .phase-header:hover { background: rgba(0,122,255,0.05); }
-        .phase-header-left { display: flex; align-items: center; gap: 16px; }
-        .phase-header-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-        .phase-dot { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; }
-        .dot-beginner { background: var(--success); }
-        .dot-intermediate { background: var(--warning); }
-        .dot-advanced { background: var(--primary); }
-        .phase-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.5; margin-bottom: 2px; }
-        .phase-title { font-size: 20px; font-weight: 700; margin-bottom: 2px; }
-        .phase-subtitle { font-size: 13px; opacity: 0.6; }
-        .phase-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; color: white; }
-        .badge-beginner { background: var(--success); }
-        .badge-intermediate { background: var(--warning); }
-        .badge-advanced { background: var(--primary); }
-        .phase-toggle-icon { font-size: 14px; opacity: 0.5; transition: transform 0.3s ease; display: inline-block; width: 20px; text-align: center; }
-        .phase-toggle-icon.collapsed { transform: rotate(-90deg); }
-        .phase-body { padding: 0 20px 20px; overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease; max-height: 2000px; opacity: 1; }
-        .phase-body.collapsed { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
-        .course-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; padding-top: 4px; }
-        .course-card { border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; transition: all 0.2s ease; }
-        .course-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-        .course-icon { font-size: 28px; }
-        .course-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-        .course-meta { display: flex; gap: 12px; font-size: 11px; opacity: 0.55; flex-wrap: wrap; }
-        .course-desc { font-size: 13px; opacity: 0.65; line-height: 1.5; flex-grow: 1; }
-        .course-btn { display: inline-block; padding: 8px 14px; background: var(--primary); color: white; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; text-align: center; transition: opacity 0.2s, transform 0.2s; align-self: flex-start; }
-        .course-btn:hover { opacity: 0.85; transform: translateX(2px); }
-        .roadmap-timeline { margin-bottom: 28px; padding: 24px 28px; border-radius: 16px; }
-        .timeline-track { position: relative; display: flex; justify-content: space-between; align-items: flex-start; padding: 0 20px; }
-        .timeline-bar { position: absolute; top: 10px; left: 20px; right: 20px; height: 3px; background: linear-gradient(90deg, var(--success), var(--warning), var(--primary)); border-radius: 2px; z-index: 0; }
-        .timeline-checkpoint { display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 1; }
-        .timeline-dot { width: 22px; height: 22px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .timeline-dot:hover { transform: scale(1.2); }
-        .timeline-checkpoint .dot-beginner { background: var(--success); }
-        .timeline-checkpoint .dot-intermediate { background: var(--warning); }
-        .timeline-checkpoint .dot-advanced { background: var(--primary); }
-        .timeline-label { font-size: 12px; font-weight: 700; opacity: 0.8; }
-        .timeline-date { font-size: 12px; font-weight: 600; color: var(--primary); white-space: nowrap; }
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 32px; } .section-title { font-size: 18px; }
-            .grid { grid-template-columns: 1fr; } .nav-link { font-size: 11px; padding: 4px 8px; }
-            .leaderboard-stats { flex-direction: column; gap: 8px; }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 3rem;
+            background: white;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
+
+        .nav-left { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.1rem; color: var(--primary-blue); }
+        .nav-logo-icon { font-size: 1.4rem; }
+        
+        .nav-links { display: flex; gap: 2rem; align-items: center; font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; }
+        .nav-link { text-decoration: none; color: inherit; transition: color 0.2s; cursor: pointer; }
+        .nav-link:hover { color: var(--text-main); }
+        .nav-link.active { color: var(--text-main); font-weight: 600; }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-primary:hover { opacity: 0.9; }
+
+        /* Hero Section */
+        .hero {
+            background: var(--bg-hero);
+            margin: 2rem 3rem;
+            padding: 4rem 2rem;
+            border-radius: 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .hero-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 700; margin: 0; color: #1d1d1f; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; line-height: 1.5; }
+
+        /* Action Bar */
+        .action-bar {
+            margin: 0 3rem 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filters { display: flex; gap: 1rem; }
+        
+        .select-filter {
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            border: 1px solid #d2d2d7;
+            background: white;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Stats Strip */
+        .stats-strip {
+            display: flex;
+            gap: 2rem;
+            margin: 0 3rem 2rem 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            overflow-x: auto;
+        }
+        
+        .stat-item { display: flex; flex-direction: column; gap: 4px; }
+        .stat-num { font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
+        .stat-desc { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 0 3rem 4rem 3rem;
+        }
+
+        .hub-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .hub-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
+
+        .card-icon { font-size: 2rem; margin-bottom: 1rem; }
+        
+        .card-title { font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; color: var(--text-main); }
+        
+        .card-desc { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1; }
+
+        .card-meta { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        
+        .pill {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Read-only Modal styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .modal-overlay.open { display: flex; opacity: 1; }
+
+        .modal {
+            background: white;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            border: 1px solid #f0f0f0;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-btn { 
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none; 
+            border: none; 
+            font-size: 1.5rem; 
+            color: var(--text-secondary); 
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .detail-row {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #f5f5f7;
+            padding-bottom: 1rem;
+        }
+        .detail-row:last-child { border-bottom: none; }
+        
+        .detail-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .detail-value {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="navbar">
-        <div class="nav-brand" onclick="showPage('home')">🚀 MD AI Hub</div>
+
+    <nav>
+        <div class="nav-left">
+            <span class="nav-logo-icon">🚀</span>
+            MD AI Hub
+        </div>
         <div class="nav-links">
-            <div class="nav-link active" id="nav-home" onclick="showPage('home')">Home</div>
-            <div class="nav-link" id="nav-journey" onclick="showPage('journey')">AI Journey</div>
-            <div class="nav-link" id="nav-resources" onclick="showPage('resources')">Resources</div>
-            <div class="nav-link" id="nav-leaderboard" onclick="showPage('leaderboard')">Leaderboard</div>
-            <div class="nav-link" id="nav-news" onclick="showPage('news')">News</div>
-            <div class="nav-link" id="nav-projects" onclick="showPage('projects')">Projects</div>
-            <div class="nav-link" id="nav-roadmap" onclick="showPage('roadmap')">Roadmap</div>
-            <div class="nav-link" id="nav-support" onclick="showPage('support')">Support</div>
-            <div class="nav-link" id="nav-usecase" onclick="showPage('usecase')">Use Cases</div>
-            <div class="nav-link" id="nav-studio" onclick="showPage('studio')">MD Studio</div>
+            <a class="nav-link">Home</a>
+            <a class="nav-link">AI Journey</a>
+            <a class="nav-link">Resources</a>
+            <a class="nav-link">Leaderboard</a>
+            <a class="nav-link">Projects</a>
+            <a class="nav-link active">Use Cases</a>
+        </div>
+        <div style="width: 100px;"></div> <!-- Spacer to balance layout -->
+    </nav>
+
+    <div class="hero">
+        <div class="hero-icon">🧩</div>
+        <h1 class="hero-title">Use Case Tracker</h1>
+        <div class="hero-subtitle">
+            Explore how different functions are leveraging AI to solve problems, increase efficiency, and drive innovation across the organization.
         </div>
     </div>
 
-    <div id="home" class="page active">
-        <div class="hero"><div class="hero-icon">🚀</div><h1>MD AI Hub</h1><p>Manufacturing Design's Central Hub for AI Learning, Innovation & Collaboration</p><div class="hero-subtitle">Empowering our team to master artificial intelligence</div></div>
-        <div class="section"><div class="grid">
-            <div class="card" onclick="showPage('journey')"><div class="card-icon">🎓</div><div class="card-title">AI Journey</div><div class="card-description">Track your personal AI learning progress, completed courses, and earned badges.</div><div class="status-indicator">● Your Profile</div><div class="card-footer">View <span class="arrow">→</span></div></div>
-            <div class="card" onclick="showPage('resources')"><div class="card-icon">📚</div><div class="card-title">Resources Hub</div><div class="card-description">Access tutorials, documentation, tools, and learning materials.</div><div class="badge-count">15+ Resources</div><div class="card-footer">Explore <span class="arrow">→</span></div></div>
-            <div class="card" onclick="showPage('leaderboard')"><div class="card-icon">🏆</div><div class="card-title">Team Leaderboard</div><div class="card-description">See how your team members are progressing and celebrate achievements.</div><div class="status-indicator">👥 24 Active Learners</div><div class="card-footer">Compete <span class="arrow">→</span></div></div>
-            <div class="card" onclick="showPage('news')"><div class="card-icon">📰</div><div class="card-title">News & Updates</div><div class="card-description">Stay informed with the latest AI training announcements and updates.</div><div class="status-indicator">● 3 New Updates</div><div class="card-footer">Read <span class="arrow">→</span></div></div>
-            <div class="card" onclick="showPage('projects')"><div class="card-icon">🎨</div><div class="card-title">Projects Showcase</div><div class="card-description">Discover innovative projects created by team members using AI tools.</div><div class="badge-count">12 Projects</div><div class="card-footer">Browse <span class="arrow">→</span></div></div>
-            <div class="card" onclick="showPage('roadmap')"><div class="card-icon">🗺️</div><div class="card-title">Learning Roadmap</div><div class="card-description">Follow a structured curriculum with prerequisites and milestones.</div><div class="badge-count">3 Phases</div><div class="card-footer">Explore <span class="arrow">→</span></div></div>
-            <div class="card" onclick="showPage('support')"><div class="card-icon">❓</div><div class="card-title">FAQ & Support</div><div class="card-description">Get answers to common questions and connect with support resources.</div><div class="status-indicator">💬 Help Available</div><div class="card-footer">Get Help <span class="arrow">→</span></div></div>
-            <div class="card" onclick="showPage('usecase')"><div class="card-icon">💼</div><div class="card-title">Use Case Submission</div><div class="card-description">Share your AI use cases and ideas with the team.</div><div class="status-indicator">● 7 Pending Review</div><div class="card-footer">Submit <span class="arrow">→</span></div></div>
-            <div class="card" onclick="showPage('studio')"><div class="card-icon">🎬</div><div class="card-title">MD Studio</div><div class="card-description">Manufacturing Design creative studio for prototyping and experimentation.</div><div class="badge-count">22 Active</div><div class="card-footer">Create <span class="arrow">→</span></div></div>
-        </div></div>
-        <div class="section"><div class="section-title">At a Glance</div><div class="grid grid-2">
-            <div class="card"><div style="font-size:32px;font-weight:700;color:var(--primary)">847</div><div class="card-title">Total Hours Trained</div><div class="card-description">Across all team members</div></div>
-            <div class="card"><div style="font-size:32px;font-weight:700;color:var(--success)">156</div><div class="card-title">Courses Completed</div><div class="card-description">From our manufacturing team</div></div>
-            <div class="card"><div style="font-size:32px;font-weight:700;color:var(--warning)">42</div><div class="card-title">AI Projects</div><div class="card-description">Successfully implemented</div></div>
-            <div class="card"><div style="font-size:32px;font-weight:700;color:#FF3B30">12</div><div class="card-title">New Courses</div><div class="card-description">Available this quarter</div></div>
-        </div></div>
-    </div>
-
-    <div id="journey" class="page">
-        <div class="header"><h1>🎓 AI Journey</h1><p>Track your AI learning progress and achievements</p>
-            <div class="user-info"><div class="user-name">👤 Alex Chen</div><div class="progress-summary">
-                <div class="stat"><div class="stat-number">8</div><div class="stat-label">Completed</div></div>
-                <div class="stat"><div class="stat-number">2</div><div class="stat-label">In Progress</div></div>
-                <div class="stat"><div class="stat-number">12</div><div class="stat-label">Total Badges</div></div>
-            </div></div>
+    <!-- Stats -->
+    <div class="stats-strip">
+        <div class="stat-item">
+            <span class="stat-num" id="stat-total">0</span>
+            <span class="stat-desc">Total Use Cases</span>
         </div>
-        <div class="section"><div class="section-title">📚 AI Training Programs</div>
-            <div class="card" style="background:rgba(52,199,89,0.1);border-left:3px solid var(--success)"><div class="training-item"><div class="training-info"><div class="training-title">Generative AI Fundamentals</div><div class="training-meta"><span>⏱️ 4 hours</span><span>✅ Completed Jan 15, 2024</span></div></div><div class="status-badge status-completed">Completed</div></div><div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div></div>
-            <div class="card" style="background:rgba(52,199,89,0.1);border-left:3px solid var(--success)"><div class="training-item"><div class="training-info"><div class="training-title">Prompt Engineering for Design</div><div class="training-meta"><span>⏱️ 3 hours</span><span>✅ Completed Jan 22, 2024</span></div></div><div class="status-badge status-completed">Completed</div></div><div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div></div>
-            <div class="card" style="background:rgba(255,149,0,0.1);border-left:3px solid var(--warning)"><div class="training-item"><div class="training-info"><div class="training-title">Advanced Machine Learning Applications</div><div class="training-meta"><span>⏱️ 6 hours</span><span>📍 60% Complete</span></div></div><div class="status-badge status-in-progress">In Progress</div></div><div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div></div>
+        <div class="stat-item">
+            <span class="stat-num" id="stat-active" style="color: #166534">0</span>
+            <span class="stat-desc">Leveraging AI</span>
         </div>
-        <div class="section"><div class="section-title">🏆 Earned Badges</div><div class="badges-grid">
-            <div class="badge-item"><div class="badge-icon">🎓</div><div class="badge-name">AI Foundations</div><div class="badge-date">Jan 15, 2024</div></div>
-            <div class="badge-item"><div class="badge-icon">💡</div><div class="badge-name">Prompt Master</div><div class="badge-date">Jan 22, 2024</div></div>
-            <div class="badge-item"><div class="badge-icon">⚙️</div><div class="badge-name">Manufacturing AI</div><div class="badge-date">Feb 3, 2024</div></div>
-            <div class="badge-item"><div class="badge-icon">🚀</div><div class="badge-name">Quick Learner</div><div class="badge-date">Feb 10, 2024</div></div>
-            <div class="badge-item"><div class="badge-icon">🌟</div><div class="badge-name">5-Course Champion</div><div class="badge-date">Feb 10, 2024</div></div>
-            <div class="badge-item"><div class="badge-icon">🔥</div><div class="badge-name">Streak Keeper</div><div class="badge-date">Feb 12, 2024</div></div>
-            <div class="badge-item"><div class="badge-icon">🎯</div><div class="badge-name">Design Innovator</div><div class="badge-date">Feb 15, 2024</div></div>
-            <div class="badge-item"><div class="badge-icon">🧠</div><div class="badge-name">Expert Level</div><div class="badge-date">Feb 20, 2024</div></div>
-            <div class="badge-item"><div class="badge-icon">📈</div><div class="badge-name">Progress Pro</div><div class="badge-date">Feb 25, 2024</div></div>
-            <div class="badge-item"><div class="badge-icon">🤝</div><div class="badge-name">Team Collaborator</div><div class="badge-date">Mar 1, 2024</div></div>
-            <div class="badge-item"><div class="badge-icon">💎</div><div class="badge-name">Premium Achiever</div><div class="badge-date">Mar 5, 2024</div></div>
-            <div class="badge-item"><div class="badge-icon">👑</div><div class="badge-name">Master AI</div><div class="badge-date">Mar 12, 2024</div></div>
-        </div></div>
-        <div class="section"><div class="section-title">💼 Your Use Case Submissions</div>
-            <div class="submission-item approved"><div class="submission-info"><div class="submission-title">AI-Powered Quality Inspection System</div><div class="submission-meta"><span>🛠️ Computer Vision API</span><span>📅 Feb 28, 2024</span></div><div class="submission-description">Using AI to automatically detect defects in manufacturing process</div><div class="submission-tags"><span class="tag">Weekly Usage</span><span class="tag">10-20 hrs/week saved</span></div></div><div class="status-badge status-approved">Approved</div></div>
-            <div class="submission-item pending"><div class="submission-info"><div class="submission-title">Automated Design Optimization</div><div class="submission-meta"><span>🛠️ Claude AI</span><span>📅 Mar 10, 2024</span></div><div class="submission-description">Leveraging generative AI to optimize product designs</div><div class="submission-tags"><span class="tag">Daily Usage</span><span class="tag">20+ hrs/week saved</span></div></div><div class="status-badge status-pending">Pending Review</div></div>
+        <div class="stat-item">
+            <span class="stat-num" id="stat-hours">0</span>
+            <span class="stat-desc">Est. Hours Saved</span>
         </div>
     </div>
 
-    <div id="resources" class="page">
-        <div class="header"><h1>📚 Resources Hub</h1><p>Comprehensive learning materials and tools</p></div>
-        <div class="section"><div class="grid">
-            <div class="card"><div class="card-icon">📖</div><div class="card-title">Documentation</div><div class="card-description">Complete guides and API documentation for AI tools</div><div class="card-footer">Access <span class="arrow">→</span></div></div>
-            <div class="card"><div class="card-icon">🎥</div><div class="card-title">Video Tutorials</div><div class="card-description">Step-by-step video guides for getting started</div><div class="card-footer">Watch <span class="arrow">→</span></div></div>
-            <div class="card"><div class="card-icon">🔗</div><div class="card-title">Useful Links</div><div class="card-description">Curated collection of external resources</div><div class="card-footer">Browse <span class="arrow">→</span></div></div>
-        </div></div>
-    </div>
-
-    <div id="leaderboard" class="page">
-        <div class="header"><h1>🏆 Team Leaderboard</h1><p>Top performers and active learners</p></div>
-        <div class="section"><div class="section-title">🥇 Current Rankings</div>
-            <div class="leaderboard-item"><div class="rank-badge rank-1">1</div><div class="leaderboard-info"><div class="leaderboard-name">Jordan Martinez</div><div class="leaderboard-meta"><span>🎓 12 Courses</span><span>⏱️ 120 Hours</span></div></div><div class="leaderboard-stats"><div class="leaderboard-stat"><div class="leaderboard-value">18</div><div class="leaderboard-label">Badges</div></div><div class="leaderboard-stat"><div class="leaderboard-value">4</div><div class="leaderboard-label">Projects</div></div></div></div>
-            <div class="leaderboard-item"><div class="rank-badge rank-2">2</div><div class="leaderboard-info"><div class="leaderboard-name">Sam Rodriguez</div><div class="leaderboard-meta"><span>🎓 10 Courses</span><span>⏱️ 105 Hours</span></div></div><div class="leaderboard-stats"><div class="leaderboard-stat"><div class="leaderboard-value">15</div><div class="leaderboard-label">Badges</div></div><div class="leaderboard-stat"><div class="leaderboard-value">3</div><div class="leaderboard-label">Projects</div></div></div></div>
-            <div class="leaderboard-item"><div class="rank-badge rank-3">3</div><div class="leaderboard-info"><div class="leaderboard-name">Alex Chen</div><div class="leaderboard-meta"><span>🎓 8 Courses</span><span>⏱️ 95 Hours</span></div></div><div class="leaderboard-stats"><div class="leaderboard-stat"><div class="leaderboard-value">12</div><div class="leaderboard-label">Badges</div></div><div class="leaderboard-stat"><div class="leaderboard-value">2</div><div class="leaderboard-label">Projects</div></div></div></div>
-            <div class="leaderboard-item"><div class="rank-badge">4</div><div class="leaderboard-info"><div class="leaderboard-name">Sarah Johnson</div><div class="leaderboard-meta"><span>🎓 7 Courses</span><span>⏱️ 82 Hours</span></div></div><div class="leaderboard-stats"><div class="leaderboard-stat"><div class="leaderboard-value">10</div><div class="leaderboard-label">Badges</div></div><div class="leaderboard-stat"><div class="leaderboard-value">2</div><div class="leaderboard-label">Projects</div></div></div></div>
-            <div class="leaderboard-item"><div class="rank-badge">5</div><div class="leaderboard-info"><div class="leaderboard-name">Michael Park</div><div class="leaderboard-meta"><span>🎓 6 Courses</span><span>⏱️ 68 Hours</span></div></div><div class="leaderboard-stats"><div class="leaderboard-stat"><div class="leaderboard-value">8</div><div class="leaderboard-label">Badges</div></div><div class="leaderboard-stat"><div class="leaderboard-value">1</div><div class="leaderboard-label">Projects</div></div></div></div>
-        </div>
-        <div class="section"><div class="section-title">📊 Quick Stats</div><div class="grid grid-2">
-            <div class="card"><div style="font-size:32px;font-weight:700;color:var(--success)">24</div><div class="card-title">Active Learners</div><div class="card-description">Currently engaged this month</div></div>
-            <div class="card"><div style="font-size:32px;font-weight:700;color:var(--primary)">847</div><div class="card-title">Total Learning Hours</div><div class="card-description">Accumulated by the team</div></div>
-            <div class="card"><div style="font-size:32px;font-weight:700;color:var(--warning)">156</div><div class="card-title">Courses Completed</div><div class="card-description">Across all members</div></div>
-            <div class="card"><div style="font-size:32px;font-weight:700;color:#FF9F0A">89</div><div class="card-title">Badges Earned</div><div class="card-description">Total achievement milestone</div></div>
-        </div></div>
-    </div>
-
-    <div id="news" class="page">
-        <div class="header"><h1>📰 News & Updates</h1><p>Latest announcements and course releases</p></div>
-        <div class="section">
-            <div class="card"><div class="card-title">🎉 New Course Released</div><div class="card-description">Advanced Computer Vision for Manufacturing is now available! Enroll today.</div></div>
-            <div class="card"><div class="card-title">📌 Important Update</div><div class="card-description">All trainings must be completed by end of Q2. Check your progress now.</div></div>
+    <div class="action-bar">
+        <div class="filters">
+            <select class="select-filter" id="filter-function" onchange="applyFilters()">
+                <option value="All">All Functions</option>
+                <!-- Populated dynamically if needed, or kept static -->
+                <option value="MDPM/OPM">MDPM/OPM</option>
+                <option value="Function A">Function A</option>
+                <option value="Function B">Function B</option>
+            </select>
+            <select class="select-filter" id="filter-category" onchange="applyFilters()">
+                <option value="All">All Categories</option>
+                <option value="1a">Leveraging AI</option>
+                <option value="1b">In Development</option>
+                <option value="2">Not Leveraging</option>
+                <option value="3">Under ID</option>
+            </select>
         </div>
     </div>
 
-    <div id="projects" class="page">
-        <div class="header"><h1>🎨 Projects Showcase</h1><p>Innovative AI projects by team members</p></div>
-        <div class="section">
-            <div class="project-card"><div class="project-header"><div><div class="project-title">AI-Powered Quality Inspection System</div><div class="project-author">By Jordan Martinez</div></div></div><div class="project-description">An advanced computer vision system that automatically detects defects in manufacturing processes with 99.2% accuracy. Reduces manual inspection time by 80%.</div><div class="project-impact"><div class="impact-item"><div class="impact-value">80%</div><div class="impact-label">Time Saved</div></div><div class="impact-item"><div class="impact-value">99.2%</div><div class="impact-label">Accuracy</div></div><div class="impact-item"><div class="impact-value">3</div><div class="impact-label">Production Lines</div></div></div><div class="submission-tags"><span class="tag">Computer Vision</span><span class="tag">Manufacturing</span></div></div>
-            <div class="project-card" style="border-left-color:var(--success)"><div class="project-header"><div><div class="project-title">Automated Design Optimization Engine</div><div class="project-author">By Sam Rodriguez</div></div></div><div class="project-description">Generative AI system that optimizes product designs based on performance criteria. Cuts design iteration time from weeks to days.</div><div class="project-impact"><div class="impact-item"><div class="impact-value">85%</div><div class="impact-label">Faster Iteration</div></div><div class="impact-item"><div class="impact-value">15%</div><div class="impact-label">Efficiency Gain</div></div><div class="impact-item"><div class="impact-value">42</div><div class="impact-label">Designs Optimized</div></div></div><div class="submission-tags"><span class="tag">Generative AI</span><span class="tag">Design</span></div></div>
-            <div class="project-card" style="border-left-color:var(--warning)"><div class="project-header"><div><div class="project-title">Predictive Maintenance Intelligence</div><div class="project-author">By Alex Chen</div></div></div><div class="project-description">Machine learning model that predicts equipment failures before they occur by analyzing sensor data patterns.</div><div class="project-impact"><div class="impact-item"><div class="impact-value">92%</div><div class="impact-label">Prediction Accuracy</div></div><div class="impact-item"><div class="impact-value">60%</div><div class="impact-label">Downtime Reduction</div></div><div class="impact-item"><div class="impact-value">12</div><div class="impact-label">Equipment Monitored</div></div></div><div class="submission-tags"><span class="tag">Machine Learning</span><span class="tag">Predictive</span></div></div>
+    <div id="grid-container" class="grid">
+        <!-- Cards injected here -->
+        <div style="grid-column: 1/-1; text-align: center; color: #86868b; padding: 2rem;">
+            Loading use cases from CSV...
         </div>
     </div>
 
-    <div id="roadmap" class="page">
-        <div class="header"><h1>🗺️ Learning Roadmap</h1><p>Your structured path to AI mastery — three phases, each building on the last</p></div>
-        <div class="section">
-            <div class="roadmap-timeline"><div class="timeline-track">
-                <div class="timeline-bar"></div>
-                <div class="timeline-checkpoint"><div class="timeline-dot dot-beginner"></div><div class="timeline-label">Phase 1</div><div class="timeline-date">3 / 2026</div></div>
-                <div class="timeline-checkpoint"><div class="timeline-dot dot-intermediate"></div><div class="timeline-label">Phase 2</div><div class="timeline-date">6 / 2026</div></div>
-                <div class="timeline-checkpoint"><div class="timeline-dot dot-advanced"></div><div class="timeline-label">Phase 3</div><div class="timeline-date">9 / 2026</div></div>
-            </div></div>
-            <div class="phase-block">
-                <div class="phase-header" onclick="togglePhase('beginner')"><div class="phase-header-left"><div class="phase-dot dot-beginner"></div><div><div class="phase-label">Phase 1</div><div class="phase-title">🌱 Beginner</div><div class="phase-subtitle">Start your AI journey — no prior experience needed</div></div></div><div class="phase-header-right"><span class="phase-badge badge-beginner">4 Courses</span><span class="phase-toggle-icon" id="toggle-beginner">▼</span></div></div>
-                <div class="phase-body" id="body-beginner"><div class="course-grid">
-                    <div class="course-card"><div class="course-icon">🤖</div><div class="course-title">Introduction to Artificial Intelligence</div><div class="course-meta"><span>⏱️ 2 hrs</span><span>🎯 No prerequisites</span></div><div class="course-desc">Understand what AI is, how it works, and where it's used today in manufacturing and beyond.</div><a class="course-btn" href="#">Start Course →</a></div>
-                    <div class="course-card"><div class="course-icon">📊</div><div class="course-title">Data Science Fundamentals</div><div class="course-meta"><span>⏱️ 3 hrs</span><span>🎯 No prerequisites</span></div><div class="course-desc">Learn how to collect, clean, and interpret data — the building blocks of every AI system.</div><a class="course-btn" href="#">Start Course →</a></div>
-                    <div class="course-card"><div class="course-icon">🧠</div><div class="course-title">Machine Learning Basics</div><div class="course-meta"><span>⏱️ 4 hrs</span><span>🎯 Data Science Fundamentals</span></div><div class="course-desc">Explore supervised and unsupervised learning, key algorithms, and how models learn from data.</div><a class="course-btn" href="#">Start Course →</a></div>
-                    <div class="course-card"><div class="course-icon">💬</div><div class="course-title">Prompt Engineering for Beginners</div><div class="course-meta"><span>⏱️ 2 hrs</span><span>🎯 No prerequisites</span></div><div class="course-desc">Master the art of crafting prompts to get better results from AI tools like Claude and ChatGPT.</div><a class="course-btn" href="#">Start Course →</a></div>
-                </div></div>
-            </div>
-            <div class="phase-block">
-                <div class="phase-header" onclick="togglePhase('intermediate')"><div class="phase-header-left"><div class="phase-dot dot-intermediate"></div><div><div class="phase-label">Phase 2</div><div class="phase-title">⚡ Intermediate</div><div class="phase-subtitle">Build practical skills for real-world manufacturing applications</div></div></div><div class="phase-header-right"><span class="phase-badge badge-intermediate">5 Courses</span><span class="phase-toggle-icon" id="toggle-intermediate">▼</span></div></div>
-                <div class="phase-body" id="body-intermediate"><div class="course-grid">
-                    <div class="course-card"><div class="course-icon">👁️</div><div class="course-title">Computer Vision Essentials</div><div class="course-meta"><span>⏱️ 5 hrs</span><span>🎯 Machine Learning Basics</span></div><div class="course-desc">Learn how machines see and interpret images — foundational for quality inspection systems.</div><a class="course-btn" href="#">Start Course →</a></div>
-                    <div class="course-card"><div class="course-icon">📝</div><div class="course-title">Natural Language Processing</div><div class="course-meta"><span>⏱️ 4 hrs</span><span>🎯 Machine Learning Basics</span></div><div class="course-desc">Understand how AI processes text and language to automate reports, summaries, and insights.</div><a class="course-btn" href="#">Start Course →</a></div>
-                    <div class="course-card"><div class="course-icon">🔮</div><div class="course-title">Predictive Analytics for Manufacturing</div><div class="course-meta"><span>⏱️ 6 hrs</span><span>🎯 Data Science Fundamentals</span></div><div class="course-desc">Use historical data to predict equipment failures, demand shifts, and process inefficiencies.</div><a class="course-btn" href="#">Start Course →</a></div>
-                    <div class="course-card"><div class="course-icon">⚙️</div><div class="course-title">Model Training & Optimization</div><div class="course-meta"><span>⏱️ 5 hrs</span><span>🎯 Machine Learning Basics</span></div><div class="course-desc">Learn to tune, evaluate, and improve model performance with real-world datasets.</div><a class="course-btn" href="#">Start Course →</a></div>
-                    <div class="course-card"><div class="course-icon">🎨</div><div class="course-title">Generative AI for Design</div><div class="course-meta"><span>⏱️ 4 hrs</span><span>🎯 Prompt Engineering Basics</span></div><div class="course-desc">Harness generative AI to accelerate prototyping, design variations, and documentation workflows.</div><a class="course-btn" href="#">Start Course →</a></div>
-                </div></div>
-            </div>
-            <div class="phase-block">
-                <div class="phase-header" onclick="togglePhase('advanced')"><div class="phase-header-left"><div class="phase-dot dot-advanced"></div><div><div class="phase-label">Phase 3</div><div class="phase-title">🚀 Advanced</div><div class="phase-subtitle">Lead AI initiatives and drive innovation across Manufacturing Design</div></div></div><div class="phase-header-right"><span class="phase-badge badge-advanced">4 Courses</span><span class="phase-toggle-icon" id="toggle-advanced">▼</span></div></div>
-                <div class="phase-body" id="body-advanced"><div class="course-grid">
-                    <div class="course-card"><div class="course-icon">🏭</div><div class="course-title">AI Systems for Production at Scale</div><div class="course-meta"><span>⏱️ 8 hrs</span><span>🎯 Model Training & Optimization</span></div><div class="course-desc">Architect and deploy production-grade AI pipelines across manufacturing facilities.</div><a class="course-btn" href="#">Start Course →</a></div>
-                    <div class="course-card"><div class="course-icon">⚖️</div><div class="course-title">AI Ethics & Responsible AI</div><div class="course-meta"><span>⏱️ 3 hrs</span><span>🎯 Any Intermediate Course</span></div><div class="course-desc">Navigate bias, privacy, fairness, and governance frameworks for responsible AI deployment.</div><a class="course-btn" href="#">Start Course →</a></div>
-                    <div class="course-card"><div class="course-icon">🕸️</div><div class="course-title">Graph Neural Networks for Operations</div><div class="course-meta"><span>⏱️ 7 hrs</span><span>🎯 Model Training & Optimization</span></div><div class="course-desc">Apply GNNs to complex dependency problems in supply chains and production planning.</div><a class="course-btn" href="#">Start Course →</a></div>
-                    <div class="course-card"><div class="course-icon">🌐</div><div class="course-title">Federated & Privacy-Preserving AI</div><div class="course-meta"><span>⏱️ 6 hrs</span><span>🎯 AI Systems for Production</span></div><div class="course-desc">Train models across distributed data sources without centralizing sensitive manufacturing data.</div><a class="course-btn" href="#">Start Course →</a></div>
-                </div></div>
+    <!-- Read Only Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div id="modal-body">
+                <!-- Content injected via JS -->
             </div>
         </div>
     </div>
 
-    <div id="support" class="page">
-        <div class="header"><h1>❓ FAQ & Support</h1><p>Answers to common questions and help resources</p></div>
-        <div class="section"><div class="section-title">Frequently Asked Questions</div>
-            <div class="card"><div class="card-title">How do I get started with AI learning?</div><div class="card-description">Start with Phase 1 in the Learning Roadmap. Begin with "Introduction to Artificial Intelligence" — no prior experience needed.</div></div>
-            <div class="card"><div class="card-title">What tools and platforms do we use?</div><div class="card-description">Python, TensorFlow, PyTorch, and various AI APIs, plus cloud platforms like AWS, GCP, and Azure for model deployment.</div></div>
-            <div class="card"><div class="card-title">How are AI projects evaluated and approved?</div><div class="card-description">Submit through Use Case Submission. Reviewed on business impact, technical feasibility, and manufacturing alignment.</div></div>
-            <div class="card"><div class="card-title">Can I collaborate on projects with other team members?</div><div class="card-description">Absolutely! Find collaborators via the Leaderboard, join study groups, or propose team projects.</div></div>
-            <div class="card"><div class="card-title">What's the time commitment for courses?</div><div class="card-description">Courses vary from 2–8 hours and can be completed flexibly around your regular work.</div></div>
-            <div class="card"><div class="card-title">How do badges and achievements work?</div><div class="card-description">Badges are earned automatically upon completing courses, projects, or milestones.</div></div>
-        </div>
-        <div class="section"><div class="section-title">Need More Help?</div><div class="grid">
-            <div class="card"><div class="card-icon">💬</div><div class="card-title">Contact Support</div><div class="card-description">Email ai-hub@manufacturing.apple.com for specific questions</div></div>
-            <div class="card"><div class="card-icon">👥</div><div class="card-title">Community Forum</div><div class="card-description">Join #md-ai-learning on Slack for team discussions</div></div>
-            <div class="card"><div class="card-icon">📅</div><div class="card-title">Office Hours</div><div class="card-description">Every Thursday 2–3 PM PT for mentoring and Q&A</div></div>
-        </div></div>
-    </div>
+    <script>
+        let useCases = [];
 
-    <div id="usecase" class="page">
-        <div class="header"><h1>💼 Use Case Submission</h1><p>Share your AI ideas and success stories</p></div>
-        <div class="section"><div class="section-title">📋 Pending Review</div>
-            <div class="submission-item pending"><div class="submission-info"><div class="submission-title">Supply Chain Optimization Using Predictive Analytics</div><div class="submission-meta"><span>👤 Michael Park</span><span>📅 Mar 15, 2024</span><span>⏳ 5 days pending</span></div><div class="submission-description">ML model to forecast demand and optimize inventory across manufacturing facilities.</div><div class="submission-tags"><span class="tag">Predictive Analytics</span><span class="tag">Supply Chain</span><span class="tag">Est. 15-20 hrs/week</span></div></div><div class="status-badge status-pending">Pending</div></div>
-            <div class="submission-item pending"><div class="submission-info"><div class="submission-title">NLP for Customer Feedback Analysis</div><div class="submission-meta"><span>👤 Sarah Johnson</span><span>📅 Mar 18, 2024</span><span>⏳ 2 days pending</span></div><div class="submission-description">NLP to analyze customer feedback at scale and identify product improvement opportunities.</div><div class="submission-tags"><span class="tag">NLP</span><span class="tag">Customer Insights</span><span class="tag">Est. 10-15 hrs/week</span></div></div><div class="status-badge status-pending">Pending</div></div>
-            <div class="submission-item pending"><div class="submission-info"><div class="submission-title">Energy Consumption Prediction for Manufacturing</div><div class="submission-meta"><span>👤 John Tech</span><span>📅 Mar 20, 2024</span><span>⏳ Under review</span></div><div class="submission-description">Deep learning model to predict energy consumption and reduce carbon footprint.</div><div class="submission-tags"><span class="tag">Deep Learning</span><span class="tag">Sustainability</span><span class="tag">Est. 12-18 hrs/week</span></div></div><div class="status-badge status-pending">Pending</div></div>
-        </div>
-        <div class="section"><div class="section-title">✅ Approved & Active</div>
-            <div class="submission-item approved"><div class="submission-info"><div class="submission-title">AI-Powered Quality Inspection System</div><div class="submission-meta"><span>👤 Jordan Martinez</span><span>📅 Approved Feb 28, 2024</span><span>✓ In Production</span></div><div class="submission-description">Computer vision detecting defects with 99.2% accuracy across 3 production lines.</div><div class="submission-tags"><span class="tag">Computer Vision</span><span class="tag">20+ hrs/week saved</span></div></div><div class="status-badge status-approved">Active</div></div>
-            <div class="submission-item approved"><div class="submission-info"><div class="submission-title">Automated Design Optimization</div><div class="submission-meta"><span>👤 Sam Rodriguez</span><span>📅 Approved Mar 5, 2024</span><span>✓ In Production</span></div><div class="submission-description">Generative AI reducing design iteration time by 85% and improving efficiency by 15%.</div><div class="submission-tags"><span class="tag">Generative AI</span><span class="tag">20+ hrs/week saved</span></div></div><div class="status-badge status-approved">Active</div></div>
-        </div>
-    </div>
+        // 1. Fetch CSV Data
+        async function fetchCSV() {
+            try {
+                // IMPORTANT: Ensure 'use_cases.csv' exists in the same folder
+                const response = await fetch('use_cases.csv');
+                
+                if (!response.ok) {
+                    throw new Error('Failed to load CSV file');
+                }
+                
+                const text = await response.text();
+                useCases = parseCSV(text);
+                
+                // Refresh UI
+                init();
+            } catch (error) {
+                console.error(error);
+                document.getElementById('grid-container').innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; color: #ff3b30; padding: 2rem;">
+                        <h3>Error Loading Data</h3>
+                        <p>Could not load 'use_cases.csv'. Please check if the file exists.</p>
+                        <p style="font-size:0.8rem; margin-top:1rem;">(Using demo data for now...)</p>
+                    </div>
+                `;
+                // Fallback to demo data so page isn't broken
+                useCases = getDemoData();
+                setTimeout(init, 1500);
+            }
+        }
 
-    <div id="studio" class="page">
-        <div class="header"><h1>🎬 MD Studio</h1><p>Manufacturing Design creative studio for prototyping and experimentation</p></div>
-        <div class="section"><div class="section-title">🧪 Active Experiments</div>
-            <div class="card" style="border-left:4px solid var(--primary)"><div class="project-header"><div><div class="project-title">Real-time Defect Detection Prototype</div><div class="project-author">By Jordan Martinez · Started Mar 10, 2024</div></div></div><div class="project-description">Testing next-generation computer vision models. Current accuracy: 97.8%. Experimenting with edge deployment on IoT devices.</div><div class="submission-tags"><span class="tag">Active Experiment</span><span class="tag">Computer Vision</span><span class="tag">IoT</span></div></div>
-            <div class="card" style="border-left:4px solid var(--success)"><div class="project-header"><div><div class="project-title">Multi-Modal AI for Design</div><div class="project-author">By Sam Rodriguez · Started Feb 28, 2024</div></div></div><div class="project-description">Exploring multi-modal AI combining text, images, and structured data. Early results show 30% improvement in design quality metrics.</div><div class="submission-tags"><span class="tag">Active Experiment</span><span class="tag">Generative AI</span><span class="tag">Multi-Modal</span></div></div>
-            <div class="card" style="border-left:4px solid var(--warning)"><div class="project-header"><div><div class="project-title">Graph Neural Networks for Production Planning</div><div class="project-author">By Alex Chen · Started Mar 5, 2024</div></div></div><div class="project-description">Testing GNNs to understand complex production dependencies and optimize scheduling.</div><div class="submission-tags"><span class="tag">Active Experiment</span><span class="tag">Graph Neural Networks</span><span class="tag">Optimization</span></div></div>
-        </div>
-        <div class="section"><div class="section-title">💡 Ideas in Planning</div>
-            <div class="card"><div class="card-title">Federated Learning for Privacy-Preserving Analytics</div><div class="card-description">Analyzing data across facilities without centralizing sensitive information.</div><div class="submission-tags"><span class="tag">Planning</span><span class="tag">Privacy</span><span class="tag">Analytics</span></div></div>
-            <div class="card"><div class="card-title">Quantum Computing Applications Research</div><div class="card-description">Research into quantum computing for optimization problems in manufacturing.</div><div class="submission-tags"><span class="tag">Planning</span><span class="tag">Quantum</span><span class="tag">Research</span></div></div>
-            <div class="card"><div class="card-title">Autonomous Robotics with AI Vision</div><div class="card-description">Combining AI vision with autonomous robotics for dynamic manufacturing environments.</div><div class="submission-tags"><span class="tag">Planning</span><span class="tag">Robotics</span><span class="tag">Vision</span></div></div>
-        </div>
-    </div>
-</div>
+        // 2. Parse CSV Text
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n');
+            if (lines.length < 2) return [];
 
-<script>
-function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-    document.getElementById(pageId).classList.add('active');
-    document.querySelectorAll('.nav-link').forEach(function(l) { l.classList.remove('active'); });
-    var navMap = { home:'nav-home', journey:'nav-journey', resources:'nav-resources', leaderboard:'nav-leaderboard', news:'nav-news', projects:'nav-projects', roadmap:'nav-roadmap', support:'nav-support', usecase:'nav-usecase', studio:'nav-studio' };
-    if (navMap[pageId]) document.getElementById(navMap[pageId]).classList.add('active');
-    window.scrollTo(0, 0);
-}
-function togglePhase(phase) {
-    document.getElementById('body-' + phase).classList.toggle('collapsed');
-    document.getElementById('toggle-' + phase).classList.toggle('collapsed');
-}
-</script>
+            // Assumes header row: Function,Use Case,Category,Activity Type,Time Spent,Tool,Is AI
+            // We map these by index for simplicity. 
+            // Better: parse header row to find indices.
+            
+            const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                // Simple CSV split (handling quotes is complex, simple split for now)
+                // If you use commas inside fields, you need a robust CSV parser
+                const row = lines[i].split(',').map(c => c.trim());
+                if (row.length < 5) continue;
+
+                // Map row to object based on expected column order from Numbers export
+                // Adjust indices based on your actual CSV column order
+                data.push({
+                    id: i,
+                    function: row[0] || 'Unknown',
+                    name: row[1] || 'Untitled',
+                    category: cleanCategory(row[2]),
+                    activity: row[3] || '',
+                    time: row[4] || '',
+                    tool: row[6] || row[5] || 'N/A', // Flexible mapping
+                    isAi: (row[7] || row[6] || '').toLowerCase().includes('yes') ? 'Yes' : 'No'
+                });
+            }
+            return data;
+        }
+
+        function cleanCategory(cat) {
+            // Normalize "CAT 1a" -> "1a", "Category 2" -> "2"
+            if (!cat) return '3';
+            return cat.replace(/cat\s*|category\s*/gi, '').trim();
+        }
+
+        function getDemoData() {
+            return [
+                { id: 1, function: "MDPM/OPM", name: "Yield Analysis", category: "1a", activity: "Problem Solving", time: "2-4", tool: "Custom AI", isAi: "Yes" },
+                { id: 2, function: "MDPM/OPM", name: "Data Entry", category: "2", activity: "Repetitive", time: ">4", tool: "Excel", isAi: "No" }
+            ];
+        }
+
+                // Map row to object based on expected column order
+                // indices: 0=Func, 1=Name, 2=Cat, 3=Activity, 4=Time, 5=NewToolNeeded?, 6=ExistingTool, 7=IsAI, 8=DevTool
+                data.push({
+                    id: i,
+                    function: row[0] || 'Unknown',
+                    name: row[1] || 'Untitled',
+                    category: cleanCategory(row[2]),
+                    activity: row[3] || '',
+                    time: row[4] || '',
+                    existingTool: row[6] || 'N/A', 
+                    isAi: (row[7] || '').trim(),
+                    devTool: row[8] || 'N/A'
+                });
+            }
+            return data;
+        }
+
+        function cleanCategory(cat) {
+            if (!cat) return '3';
+            return cat.replace(/cat\s*|category\s*/gi, '').trim();
+        }
+
+        function getDemoData() {
+            return [
+                { id: 1, function: "MDPM/OPM", name: "Yield Analysis", category: "1a", activity: "Problem Solving", time: "2-4", existingTool: "Custom AI", isAi: "Yes", devTool: "N/A" },
+                { id: 2, function: "MDPM/OPM", name: "Data Entry", category: "2", activity: "Repetitive", time: ">4", existingTool: "Excel", isAi: "No", devTool: "Studio" }
+            ];
+        }
+
+        function init() {
+            applyFilters();
+            updateStats();
+        }
+        
+        // ... (Helper functions remain same) ...
+
+        function getCardIcon(activity) {
+            if (activity.includes("Repetitive")) return "⚙️";
+            if (activity.includes("Problem")) return "🧠";
+            if (activity.includes("Domain")) return "📚";
+            return "📋";
+        }
+        
+        // ... (Styles and rendering) ...
+        
+        function renderGrid(data) {
+            const container = document.getElementById('grid-container');
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:2rem; color:#888;">No use cases found.</div>';
+                return;
+            }
+
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'hub-card';
+                card.onclick = () => viewUseCase(item.id);
+
+                const icon = getCardIcon(item.activity);
+                const pillStyle = getCategoryStyle(item.category);
+                const pillLabel = getCategoryLabel(item.category);
+                
+                // Card preview shows existing tool or dev tool
+                const displayTool = (item.existingTool && item.existingTool !== 'N/A' && item.existingTool !== 'Na') 
+                    ? item.existingTool 
+                    : (item.devTool !== 'N/A' && item.devTool !== 'Na' ? item.devTool + ' (Dev)' : 'None');
+
+                card.innerHTML = `
+                    <div class="card-icon">${icon}</div>
+                    <h3 class="card-title">${item.name}</h3>
+                    <div class="card-desc">
+                        <div style="font-weight: 500; color: var(--text-main); margin-bottom: 4px;">${item.function}</div>
+                        ${item.activity}
+                        <div style="margin-top: 6px; font-size: 0.85rem; color: var(--text-secondary);">
+                            Tool: ${displayTool}
+                        </div>
+                    </div>
+                    <div class="card-meta">
+                        <span class="pill" style="${pillStyle}">${pillLabel}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+        function applyFilters() {
+            const funcFilter = document.getElementById('filter-function').value;
+            const catFilter = document.getElementById('filter-category').value;
+
+            const filtered = useCases.filter(item => {
+                const matchFunc = funcFilter === 'All' || item.function === funcFilter;
+                // Flexible category matching
+                const matchCat = catFilter === 'All' || item.category.includes(catFilter) || (catFilter === '3' && !['1a','1b','2'].some(x=>item.category.includes(x)));
+                return matchFunc && matchCat;
+            });
+
+            renderGrid(filtered);
+            updateStats(filtered); // Pass filtered data to stats
+        }
+
+        function updateStats(filteredData) {
+            // Use filtered data if provided, otherwise default to all useCases
+            const dataToCount = filteredData || useCases;
+
+            document.getElementById('stat-total').innerText = dataToCount.length;
+            document.getElementById('stat-active').innerText = dataToCount.filter(u => u.category.includes('1a')).length;
+            
+            // Simple hour estimation
+            const totalHours = dataToCount.reduce((acc, curr) => {
+                let h = 0;
+                if (curr.time.includes('0-0.5')) h = 0.25;
+                else if (curr.time.includes('0.5-2')) h = 1.25;
+                else if (curr.time.includes('2-4')) h = 3;
+                else if (curr.time.includes('>4')) h = 5;
+                return acc + h;
+            }, 0);
+            document.getElementById('stat-hours').innerText = Math.round(totalHours);
+        }
+                    <span class="pill" style="${pillStyle}; font-size: 0.9rem; padding: 6px 14px;">${pillLabel}</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="detail-row">
+                        <div class="detail-label">Activity Type</div>
+                        <div class="detail-value">${item.activity}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Time Spent</div>
+                        <div class="detail-value">${item.time}</div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-label">Current Tool</div>
+                    <div class="detail-value" style="display: flex; align-items: center; gap: 8px;">
+                        ${hasExisting ? item.existingTool : 'None'}
+                        ${isAi ? '<span style="font-size: 0.75rem; background: #e3f2fd; color: #0071e3; padding: 2px 8px; border-radius: 4px; font-weight:600;">AI Powered</span>' : ''}
+                    </div>
+                </div>
+                
+                ${hasDev ? `
+                <div class="detail-row">
+                    <div class="detail-label">Tool In Development</div>
+                    <div class="detail-value" style="color: #d97706;">
+                        Build: ${item.devTool}
+                    </div>
+                </div>` : ''}
+            `;
+            
+            modalOverlay.classList.add('open');
+        }
+            `;
+            
+            modalOverlay.classList.add('open');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('open');
+        }
+
+        // Start Fetching
+        fetchCSV();
+
+        // Close on click outside
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+    </script>
 </body>
 </html>
